@@ -1,0 +1,113 @@
+<!--INICIO DO CONTEUDO-->
+<section class="content-header">
+</section><!--/HEADER-->
+
+  <section class="content">
+    <section class="invoice">
+      <form [formGroup]="orderForm" novalidate>
+          <div class="col-xs-12">
+            <h2 class="page-header">
+              <i class="fa fa-shopping-cart"></i> Finalize o seu pedido
+            </h2>
+          </div>               
+
+          <div class="row">
+            <div class="col-xs-12 col-sm-9">
+              <p class="lead">Seus dados:</p>
+            </div>
+
+            <div class="col-xs-12 col-sm-3">
+              <span class="help-block pull-right has-error-block" *ngIf="orderForm.hasError('emailsNotMatch')"><i class="fa fa-remove"></i>Emails não conferem</span>
+            </div>
+
+            <div class="col-sm-6 col-xs-12">
+              <mt-imput-container errorMessage="Nome obrigatório" label="Nome">
+                <input class="form-control" type="text" formControlName="name" placeholder="*Nome e sobrenome" autocomplete="off">
+              </mt-imput-container>
+            </div>
+
+            <div class="col-sm-3 col-xs-12">
+              <mt-imput-container errorMessage="E-mail inválido" label="E-mail">
+                <input class="form-control" type="text" formControlName="email" placeholder="*E-mail" autocomplete="off">
+              </mt-imput-container>
+            </div>
+
+            <div class="col-sm-3 col-xs-12">
+                <mt-imput-container errorMessage="E-mail inválido" label="emailConfirmation">
+                  <input class="form-control" type="text" formControlName="emailConfirmation" placeholder="*Confirmar e-mail" autocomplete="off">
+                </mt-imput-container>
+              </div>
+          </div>
+
+          <div class="row">
+            <div class="col-xs-12">
+              <p class="lead">Endereço de entrega:</p>
+            </div>
+
+            <div class="col-sm-4 col-xs-12">
+              <mt-imput-container errorMessage="telefone obrigatório" label="endereço">
+                <input type="text" class="form-control" formControlName="address" placeholder="*Endereço" autocomplete="off">
+              </mt-imput-container>
+            </div>
+
+            <div class="col-sm-2 col-xs-12">
+              <mt-imput-container errorMessage="Obrigatório e somente números" label="Número">
+                <input type="text" class="form-control" formControlName="number" placeholder="*Numero" autocomplete="off">
+              </mt-imput-container>
+            </div>
+
+            <div class="col-sm-4 col-xs-12">
+                <mt-imput-container errorMessage="Campo obrigatório" label="referencia">
+                  <input type="text" class="form-control" formControlName="ref" placeholder="*Ponto de referência">
+                </mt-imput-container>
+              </div>
+
+            <div class="col-sm-2 col-xs-12">
+              <mt-imput-container errorMessage="Obrigatório e somente números" label="Telefone">
+                <input type="tel" class="form-control" formControlName="tel" placeholder="*Telefone" autocomplete="off">
+              </mt-imput-container>
+            </div>
+          </div><!--/ROW FORM-->
+
+          <div class="row">
+            <div class="col-xs-12">
+              <p class="lead">Itens do Pedido:</p>
+            </div>
+            
+            <mt-order-itens [items]="cartItems()"
+              (increaseQty)="increaseQty($event)"
+              (decreaseQty)="decreaseQty($event)"
+              (remove)="remove($event)">
+            </mt-order-itens>
+
+          </div><!--/ROW ITENS DO CARRINHO-->
+
+          <div class="row">
+            <!-- accepted payments column -->
+            <div class="col-sm-6 col-xs-12">
+              <p class="lead">Formas de Pagamento:</p>
+
+                <div class="form-group">
+                    <mt-radio [options]="paymentOptions" formControlName="paymentOption"></mt-radio>                    
+                </div>
+            </div>
+
+            <div class="col-sm-6 col-xs-12">
+              <p class="lead">Frete e Total:</p>
+
+              <mt-delivery-costs [delivery]="delivery"
+                [itemsValue]="itemsValue()"></mt-delivery-costs>
+              
+            </div>
+          </div><!--/ROW FORMA PAGAMENTO-->
+      </form><!--/NOVALIDATE-->
+
+      <div class="row">
+        <div class="col-xs-12">
+          <button (click)="checkOrder(orderForm.value)" href="order-summary.html" class="btn btn-success pull-right" 
+            [disabled]="!orderForm.valid || cartItems().length === 0"><i class="fa fa-credit-card"></i> Concluir Pedido
+          </button>
+        </div><!--/col-xs-12-->
+      </div><!--/ROW ENVIAR-->
+    </section><!--/INVICE-->
+  </section><!--/CONTENT-->

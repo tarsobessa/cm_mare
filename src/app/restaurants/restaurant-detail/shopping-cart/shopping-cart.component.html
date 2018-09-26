@@ -1,0 +1,44 @@
+<!--INICIO DO CARRINHO-->
+<div class="box box-solid">
+  <div class="box-header">
+    <i class="fa fa-shopping-cart"></i>
+
+    <h3 class="box-title">Carrinho</h3>
+  </div>
+  <!-- /.box-header -->
+  <div class="box-body">
+
+    <div *ngIf="!items().length">
+      <p class="text-center text-danger">
+        <strong>Seu carrinho está vazio!</strong>  
+      </p>
+    </div>
+
+    <div class="table-responsive" *ngIf="items().length">
+        <table class="table">
+          <tbody>
+          <tr *ngFor="let item of items()" [@row]="rowState">
+            <th>({{item.quantity}}x) {{item.menuItem.name}}</th>
+            <td class="text-right">{{item.value() | currency: 'BRL': true}}</td>
+            <td class="text-right">
+                <a (click)="removeItem(item)" class="btn btn-sm danger"><i class="fa fa-remove"></i></a>
+              </td>
+          </tr>
+          <tr>
+            <th class="text-dark">Total do pedido:</th>
+
+            <td class="text-right text-success text-">{{total() | currency: 'BRL': true}}
+            </td>
+          </tr>
+        </tbody></table>
+      </div>
+  </div>
+  <div class="box-footer" *ngIf="items().length">
+    <div class="pull-right">
+      <p class="text-danger">pedido mínimo: 40,00</p>
+      <button (click)="clear()" type="button" class="btn btn-danger"><i class="fa fa-trash"></i> Limpar</button>
+      <button [disabled]="total() < 40.00" [routerLink]="['/order']" class="btn btn-success"><i class="fa fa-credit-card"></i> Fechar Pedido</button>
+    </div>
+  </div>
+</div>
+<!-- FIM DO CARRINHO -->
